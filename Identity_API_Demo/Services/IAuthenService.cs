@@ -8,10 +8,10 @@ namespace Identity_API_Demo.Services
         // Service for admin or testing only
         public List<Customer> GetAllCustomer();
         public Customer GetCustomer(string id);
+        public Customer GetCustomerByUserName(string userName);
         public void SetRoleName(string id);
-
         public List<string> ShowAllRole();
-
+        public void DeleteUsers(Customer customer);
 
     }
 }

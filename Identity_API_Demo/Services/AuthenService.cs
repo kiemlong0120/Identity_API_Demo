@@ -46,10 +46,10 @@ namespace Identity_API_Demo.Services
         /// <param name="id">Customer id</param>
         public void SetRoleName(string id)
         {
-           var Custome = db.Users.SingleOrDefault(u => u.Id == id);
+            var Custome = db.Users.SingleOrDefault(u => u.Id == id);
 
             // Get roleid from database by CustomerId
-           string RoleId = db.UserRoles.Where(r => r.UserId == id).Select(r => r.RoleId).Single();
+            string RoleId = db.UserRoles.Where(r => r.UserId == id).Select(r => r.RoleId).Single();
 
             // Get roleName from database by RoleId
             string roleName = db.Roles.Where(r => r.Id == RoleId).Select(r => r.Name).Single();
@@ -69,6 +69,21 @@ namespace Identity_API_Demo.Services
         }
 
 
+        /// <summary>
+        /// Service delete user with id
+        /// </summary>
+        /// <param name="id"></param>
+        public void DeleteUsers(Customer customer)
+        {
+
+            db.Users.Remove(customer);
+            db.SaveChanges();
+        }
+
+        public Customer GetCustomerByUserName(string userName)
+        {
+            return db.Users.FirstOrDefault(u => u.UserName == userName);
+        }
         #endregion
 
     }

@@ -11,6 +11,7 @@ using System.Text;
 
 namespace Identity_API_Demo.Controllers
 {
+    [Route("api/Identity")]
     [Authorize]
     [ApiController]
     public class IdentityAPIController : ControllerBase
@@ -51,7 +52,7 @@ namespace Identity_API_Demo.Controllers
         /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]                     // Allow access by non-authenticated user
-        [Route("api/Register/{Username},{Password},{Roles}")]
+        [Route("Register")]
         public async Task<IActionResult> Register(string Username, string Password, string Roles)
         {
             #region Setup_Role
@@ -102,9 +103,7 @@ namespace Identity_API_Demo.Controllers
         }
         #endregion
 
-
         #region Login_API
-
         /// <summary>
         /// API Login.
         /// </summary>
@@ -113,11 +112,13 @@ namespace Identity_API_Demo.Controllers
         /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]         // Allow access by non-authenticated user.
-        [Route("api/Login/{Username},{Password}")]
+        [Route("Login/")]
         public async Task<IActionResult> Login(string Username, string Password)
         {
             // Check if userName exit.
             var user = await _userManager.FindByNameAsync(Username);
+
+            // Check if correct username and password
             if (user != null && await _userManager.CheckPasswordAsync(user, Password))
             {
                 // Get user's role to add to JWT
@@ -145,7 +146,6 @@ namespace Identity_API_Demo.Controllers
             return BadRequest("Invalid Username or Password. Please check again");
 
         }
-
         #endregion
 
         #region Get_All_Customer_API
@@ -156,14 +156,13 @@ namespace Identity_API_Demo.Controllers
         /// <returns></returns>
         [HttpGet]
         [Authorize(Roles = "admin")]        // Limited access by admin
-        [Route("api/GetAllCustomer")]
         public IActionResult GetAllUser()
         {
             return Ok(_authenService.GetAllCustomer());
         }
         #endregion
 
-        #region Get_All_Customer_API
+        #region Get_All_Role_API
         /// <summary>
         /// API to get all customer by admin only
         /// </summary>
@@ -171,12 +170,48 @@ namespace Identity_API_Demo.Controllers
         /// <returns></returns>
         [HttpGet]
         [Authorize(Roles = "admin")]
-        [Route("api/ShowAllRole")]
+        [Route("Roles")]
         public IActionResult ShowAllRole()
         {
             return Ok(_authenService.ShowAllRole());
         }
         #endregion
+
+        #region Delete_API
+
+        /// <summary>
+        /// API delete username by userName
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
+        [HttpDelete]
+        [Authorize(Roles = "admin")]
+        [Route("Delete")]
+        public async Task<IActionResult> DeleteUsers(string userName)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
+            _authenService.DeleteUsers(user);
+            return Ok("Delete success");
+        }
+
+        #endregion
+
+        #region GetbyId_API
+
+        [HttpGet]
+        [Authorize(Roles = "admin")]        // Limited access by admin
+        [Route("{Username}")]
+        public IActionResult GetUserbyUsername(string Username)
+        {
+            if (_authenService.GetCustomerByUserName(Username) != null)
+            {
+                return Ok();
+            }
+            return NotFound("Username not found");
+
+        }
+        #endregion
+
 
         #endregion
 
@@ -188,6 +223,8 @@ namespace Identity_API_Demo.Controllers
         /// <returns></returns>
         private JwtSecurityToken GetToken(List<Claim> authClaims)
         {
+
+            // Generate new key by reading secret key set in appsetting.json
             var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Key"]));
 
             var token = new JwtSecurityToken(
