@@ -17,28 +17,38 @@ namespace Identity_API_Demo.Controllers
     public class IdentityAPIController : ControllerBase
     {
         #region Init
-        // Inject service form constructor.
         private readonly IAuthenService _authenService;
         private readonly RoleManager<IdentityRole> _roleManager;      // Use for set role.
         private readonly UserManager<Customer> _userManager;          // Use for register or manager account.
         private readonly SignInManager<Customer> _signInManager;      // Use for login.
         private readonly IConfiguration _configuration;
+        private readonly ISendMailService _sendMailService;
         #endregion
 
         #region Constructor
-        public IdentityAPIController(IAuthenService authenService,
-                                      RoleManager<IdentityRole> roleManager,
-                                      UserManager<Customer> userManager,
-                                      SignInManager<Customer> signInManager,
-                                      IConfiguration configuration)
+        public IdentityAPIController
+            (
+
+        // Inject service form constructor.
+        IAuthenService authenService,
+        RoleManager<IdentityRole> roleManager,
+        UserManager<Customer> userManager,
+        SignInManager<Customer> signInManager,
+        IConfiguration configuration,
+        ISendMailService sendMailService
+
+            )
         {
             _authenService = authenService;
             _roleManager = roleManager;
             _userManager = userManager;
             _signInManager = signInManager;
             _configuration = configuration;
+            _sendMailService = sendMailService;
         }
         #endregion
+
+      
 
         #region API
 
@@ -112,7 +122,7 @@ namespace Identity_API_Demo.Controllers
         /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]         // Allow access by non-authenticated user.
-        [Route("Login/")]
+        [Route("Login")]
         public async Task<IActionResult> Login(string Username, string Password)
         {
             // Check if userName exit.
@@ -139,7 +149,7 @@ namespace Identity_API_Demo.Controllers
 
                 return Ok(new
                 {
-                    token = new JwtSecurityTokenHandler().WriteToken(token),
+                    token = ("Bearer ")+ new JwtSecurityTokenHandler().WriteToken(token),
                     expiration = token.ValidTo
                 });
             }
@@ -155,7 +165,8 @@ namespace Identity_API_Demo.Controllers
         /// <param name="customer"></param>
         /// <returns></returns>
         [HttpGet]
-        [Authorize(Roles = "admin")]        // Limited access by admin
+        //[Authorize(Roles = "admin")]        // Limited access by admin
+        [AllowAnonymous]
         public IActionResult GetAllUser()
         {
             return Ok(_authenService.GetAllCustomer());
@@ -196,6 +207,28 @@ namespace Identity_API_Demo.Controllers
 
         #endregion
 
+        #region Update_API
+
+        /// <summary>
+        /// API delete username by userName
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
+        [HttpPut]
+        [Authorize(Roles = "admin")]
+        [Route("Update")]
+        public async Task<IActionResult> UpdateUsers(string userName, Customer customer)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
+            if (user!=null)
+            {
+                return Ok(_authenService.UpdateUser(userName, customer));
+            }
+            return BadRequest($"Username {userName} does not exit!");
+        }
+
+        #endregion
+
         #region GetbyId_API
 
         [HttpGet]
@@ -203,9 +236,10 @@ namespace Identity_API_Demo.Controllers
         [Route("{Username}")]
         public IActionResult GetUserbyUsername(string Username)
         {
-            if (_authenService.GetCustomerByUserName(Username) != null)
+            var cus = _authenService.GetCustomerByUserName(Username);
+            if (cus!=null)
             {
-                return Ok();
+                return Ok(cus);
             }
             return NotFound("Username not found");
 
@@ -221,7 +255,7 @@ namespace Identity_API_Demo.Controllers
         /// </summary>
         /// <param name="authClaims"></param>
         /// <returns></returns>
-        private JwtSecurityToken GetToken(List<Claim> authClaims)
+        protected JwtSecurityToken GetToken(List<Claim> authClaims)
         {
 
             // Generate new key by reading secret key set in appsetting.json
@@ -237,6 +271,8 @@ namespace Identity_API_Demo.Controllers
             return token;
         }
         #endregion
+
+
 
     }
 }

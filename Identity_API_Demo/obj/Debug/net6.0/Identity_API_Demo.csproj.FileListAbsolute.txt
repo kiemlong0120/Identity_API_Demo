@@ -131,3 +131,4 @@ E:\WORK\API\Identity_API_Demo_2\Identity_API_Demo\obj\Debug\net6.0\scopedcss\bun
 E:\WORK\API\Identity_API_Demo_2\Identity_API_Demo\obj\Debug\net6.0\Identity_API_Demo.csproj.CopyComplete
 E:\WORK\API\Identity_API_Demo_2\Identity_API_Demo\obj\Debug\net6.0\Identity_API_Demo.genruntimeconfig.cache
 E:\WORK\API\Identity_API_Demo_2\Identity_API_Demo\obj\Debug\net6.0\ref\Identity_API_Demo.dll
+E:\WORK\API\Identity_API_Demo\Identity_API_Demo\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

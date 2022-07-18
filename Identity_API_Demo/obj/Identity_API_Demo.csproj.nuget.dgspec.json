@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\WORK\\API\\Identity_API_Demo_2\\Identity_API_Demo\\Identity_API_Demo.csproj": {}
+    "E:\\WORK\\API\\Identity_API_Demo\\Identity_API_Demo\\Identity_API_Demo.csproj": {}
   },
   "projects": {
-    "E:\\WORK\\API\\Identity_API_Demo_2\\Identity_API_Demo\\Identity_API_Demo.csproj": {
+    "E:\\WORK\\API\\Identity_API_Demo\\Identity_API_Demo\\Identity_API_Demo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\WORK\\API\\Identity_API_Demo_2\\Identity_API_Demo\\Identity_API_Demo.csproj",
+        "projectUniqueName": "E:\\WORK\\API\\Identity_API_Demo\\Identity_API_Demo\\Identity_API_Demo.csproj",
         "projectName": "Identity_API_Demo",
-        "projectPath": "E:\\WORK\\API\\Identity_API_Demo_2\\Identity_API_Demo\\Identity_API_Demo.csproj",
+        "projectPath": "E:\\WORK\\API\\Identity_API_Demo\\Identity_API_Demo\\Identity_API_Demo.csproj",
         "packagesPath": "C:\\Users\\QuangNguyen\\.nuget\\packages\\",
-        "outputPath": "E:\\WORK\\API\\Identity_API_Demo_2\\Identity_API_Demo\\obj\\",
+        "outputPath": "E:\\WORK\\API\\Identity_API_Demo\\Identity_API_Demo\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\QuangNguyen\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -85,7 +85,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.301\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.302\\RuntimeIdentifierGraph.json"
         }
       }
     }

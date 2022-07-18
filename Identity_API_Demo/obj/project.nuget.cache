@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "K67b0Gfs5EJzvXwWR9kMRPwxRjkVDUghOn4roXPZqJjjrUO0RX0uH9aAr3VOMr2ZigTcZdcOicxDZwqucS4MKw==",
+  "dgSpecHash": "EKMFv5NAsn+nYd4s2sh1yckG7JyYja0ogo4J/U4+Xrynyvo9ZcRJLKHDm/GTC/cWPNZOFsULhvcoZJoMjDxy8Q==",
   "success": true,
-  "projectFilePath": "E:\\WORK\\API\\Identity_API_Demo_2\\Identity_API_Demo\\Identity_API_Demo.csproj",
+  "projectFilePath": "E:\\WORK\\API\\Identity_API_Demo\\Identity_API_Demo\\Identity_API_Demo.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\QuangNguyen\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\QuangNguyen\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\6.0.6\\microsoft.aspnetcore.authentication.jwtbearer.6.0.6.nupkg.sha512",

@@ -8,13 +8,13 @@ namespace Identity_API_Demo.Services
     {
         #region Init
 
-        public IdentityDemoDbContext db;
+        public IdentityDemoDbContext _db;
         #endregion
 
         #region Constructor 
-        public AuthenService(IdentityDemoDbContext _db)
+        public AuthenService(IdentityDemoDbContext db)
         {
-            db = _db;
+            _db = db;
         }
         #endregion
 
@@ -25,7 +25,7 @@ namespace Identity_API_Demo.Services
         /// <returns>List student from query</returns>
         public List<Customer> GetAllCustomer()
         {
-            var query = db.Users;
+            var query = _db.Users;
 
             return query.ToList();
         }
@@ -37,7 +37,7 @@ namespace Identity_API_Demo.Services
         /// <returns></returns>
         public Customer GetCustomer(string Username)
         {
-            return db.Users.SingleOrDefault(u => u.UserName == Username);
+            return _db.Users.SingleOrDefault(u => u.UserName == Username);
         }
 
         /// <summary>
@@ -46,17 +46,17 @@ namespace Identity_API_Demo.Services
         /// <param name="id">Customer id</param>
         public void SetRoleName(string id)
         {
-            var Custome = db.Users.SingleOrDefault(u => u.Id == id);
+            var Custome = _db.Users.SingleOrDefault(u => u.Id == id);
 
             // Get roleid from database by CustomerId
-            string RoleId = db.UserRoles.Where(r => r.UserId == id).Select(r => r.RoleId).Single();
+            string RoleId = _db.UserRoles.Where(r => r.UserId == id).Select(r => r.RoleId).Single();
 
             // Get roleName from database by RoleId
-            string roleName = db.Roles.Where(r => r.Id == RoleId).Select(r => r.Name).Single();
+            string roleName = _db.Roles.Where(r => r.Id == RoleId).Select(r => r.Name).Single();
 
             // Ser Role name for customer (IdentityUser)
             Custome.RoleName = roleName;
-            db.SaveChanges();
+            _db.SaveChanges();
         }
 
         /// <summary>
@@ -65,10 +65,9 @@ namespace Identity_API_Demo.Services
         /// <param name="id"></param>
         public List<string> ShowAllRole()
         {
-            return db.Roles.Select(r => r.Name).ToList();
+            return _db.Roles.Select(r => r.Name).ToList();
         }
-
-
+        
         /// <summary>
         /// Service delete user with id
         /// </summary>
@@ -76,13 +75,31 @@ namespace Identity_API_Demo.Services
         public void DeleteUsers(Customer customer)
         {
 
-            db.Users.Remove(customer);
-            db.SaveChanges();
+            _db.Users.Remove(customer);
+            _db.SaveChanges();
+        }
+
+
+        public Customer UpdateUser(string userName, Customer customer)
+        {
+            var cus = _db.Users.SingleOrDefault(u => u.UserName == userName);
+            if (cus != null)
+            {
+                cus.Email = customer.Email;
+                cus.Name = customer.Name;
+                cus.Address = customer.Address;
+                cus.PhoneNumber = customer.PhoneNumber;
+
+
+                _db.SaveChanges();
+                return cus;
+            }
+            return null;
         }
 
         public Customer GetCustomerByUserName(string userName)
         {
-            return db.Users.FirstOrDefault(u => u.UserName == userName);
+            return _db.Users.FirstOrDefault(u => u.UserName == userName);
         }
         #endregion
 

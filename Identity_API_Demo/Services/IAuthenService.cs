@@ -13,5 +13,7 @@ namespace Identity_API_Demo.Services
         public List<string> ShowAllRole();
         public void DeleteUsers(Customer customer);
 
+        public Customer UpdateUser(string UserName, Customer customer);
+
     }
 }

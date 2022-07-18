@@ -61,9 +61,10 @@ using System.Text;
 
     // Add Authenticate Service (Dependency Injection)
     builder.Services.AddScoped<IAuthenService, AuthenService>();
+    builder.Services.AddScoped<ISendMailService, SendMailService>();
 
-    // Add service for Identity
-    builder.Services.AddIdentity<Customer, IdentityRole>()
+// Add service for Identity
+builder.Services.AddIdentity<Customer, IdentityRole>()
         .AddRoles<IdentityRole>()                          // Add role service.
         .AddEntityFrameworkStores<IdentityDemoDbContext>();
 
